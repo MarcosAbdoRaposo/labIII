@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS DBMarketPlace.Desconto (
   indAtivo CHAR(1) NOT NULL COMMENT 'Indica se o desconto está ou não ativo:\n\nS - Desconto Ativo\nN - Desconto Inativo.\n',
   idLoja INT NULL COMMENT 'Identificação da Loja. Obrigatório se codOrigem for L - Loja. Deve ser Nulo de codOrigem for diferente de L.',
   idCliente INT NULL COMMENT 'Código do Cliente. Obrigatório para Voucher. Nulo se for um Cupom',
-  idUsuarioCriacaor INT NOT NULL COMMENT 'Identificação do Usuário que criou o Desconto.',
+  idUsuarioCriacao INT NOT NULL COMMENT 'Identificação do Usuário que criou o Desconto.',
   datCriacao DATETIME NOT NULL COMMENT 'Data e Hora da criação do Desconto.',
   idUsuarioInativacao INT NULL COMMENT 'Identificação do Usuário que inativou o Desconto.',
   datInativacao DATETIME NULL COMMENT 'Data e Hora da inativação do Desconto.',
