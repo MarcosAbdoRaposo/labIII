@@ -122,7 +122,9 @@ async function consultarCupom(idDesconto) {
     if (cupom.datInativacao != null) {
         document.getElementById("inputDataInativacao").value = cupom.datInativacao.toLocaleString('pt-BR').replace(' ', 'T').substring(0, 16);
     }
+   
     exibirCupom(true);
+    exibeTipoDesconto(cupom.codTipo);
     exibirFormulario();
 
 }
@@ -163,6 +165,7 @@ function exibirCupom(visualizar) {
         document.getElementById("btnCancelarCupom").hidden = true;
         document.getElementById("btnSalvarCupom").hidden = true;
         document.getElementById("btnRetornarCupom").hidden = false;
+        document.getElementById("divAtivo").classList.replace("col-md-3", "col-md-6");
 
         
     } else {
@@ -177,11 +180,10 @@ function exibirCupom(visualizar) {
 }
 
 function exibeTipoDesconto(tipoDesconto) {
-    document.getElementById("inputPercentual").hidden = (tipoDesconto != "P");
-    document.getElementById("labelPercentual").hidden = (tipoDesconto != "P");
+    document.getElementById("divPercentual").hidden = (tipoDesconto != "P");
 
-    document.getElementById("inputValor").hidden = (tipoDesconto != "V");
-    document.getElementById("labelValor").hidden = (tipoDesconto != "V");
+    document.getElementById("divValor").hidden = (tipoDesconto != "V");
+
 }
 
 function exibirFormulario() {

@@ -91,6 +91,8 @@
 
                 <hr>
             </div>
+
+            <!-- Área de Origem do Cupom -->
             <div>
                 <h5 class="h5 mb-0 text-dark">Origem</h5>
             </div>
@@ -107,30 +109,34 @@
                 <label for="inputCodigo" class="form-label">Código</label>
                 <input type="text" class="form-control" id="inputCodigo"  placeholder="Código do Cupom">
             </div>
+
+            <!-- Área de Tipo de Desconto: Percentual, Valor ou Frete Grátis -->
+
             <div>
                 <h5 class="h5 mb-0 text-dark">Tipo de Desconto</h5>
             </div>
             <div class="row">
+                <div class="col-md-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" onclick="exibeTipoDesconto('P')" type="radio" name="inlineRadioTipo" id="inlineRadioPercentual" value="P">
+                        <label class="form-check-label" for="inlineRadioPercentual">Percentual %</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" onclick="exibeTipoDesconto('V')" type="radio" name="inlineRadioTipo" id="inlineRadioValor" value="V">
+                        <label class="form-check-label" for="inlineRadioValor">Valor</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" onclick="exibeTipoDesconto('F')" type="radio" name="inlineRadioTipo" id="inlineRadioFrete" value="F">
+                        <label class="form-check-label" for="inlineRadioFrete">Frete grátis</label>
+                    </div>
+                </div>
 
-                <div class="form-check form-check-inline col-md-2">
-                    <input class="form-check-input" onclick="exibeTipoDesconto('P')" type="radio" name="inlineRadioTipo" id="inlineRadioPercentual" value="P">
-                    <label class="form-check-label" for="inlineRadioPercentual">Percentual %</label>
-                </div>
-                <div class="form-check form-check-inline col-md-2">
-                    <input class="form-check-input" onclick="exibeTipoDesconto('V')" type="radio" name="inlineRadioTipo" id="inlineRadioValor" value="V">
-                    <label class="form-check-label" for="inlineRadioValor">Valor</label>
-                </div>
-                <div class="form-check form-check-inline col-md-2">
-                    <input class="form-check-input" onclick="exibeTipoDesconto('F')" type="radio" name="inlineRadioTipo" id="inlineRadioFrete" value="F">
-                    <label class="form-check-label" for="inlineRadioFrete">Frete grátis</label>
-                </div>
-
-                <div class="col-md-3">
+                <div class="col-md-2" id="divPercentual">
                     <label for="inputPercentual" class="form-label" id="labelPercentual">Percentual do Desconto</label>
                     <input type="text" class="form-control" id="inputPercentual">
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2" id="divValor" >
                     <label for="inputValor" class="form-label" id="labelValor">Valor do Desconto</label>
                     <input type="text" class="form-control" id="inputValor">
                 </div>
@@ -175,7 +181,7 @@
             </div>
             <hr>
             <div class="row">
-                <div class="form-check col-md-3"">
+                <div class="form-check col-md-3" id="divAtivo">
                     <input class="form-check-input" type="checkbox" value="0" id="ckBoxInativo" disabled>
                     <label class="form-check-label" for="ckBoxInativo">Inativo</label>
                 </div>
