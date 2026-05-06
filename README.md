@@ -4,7 +4,7 @@
 
 ## 2. Criação do Banco de Dados
 
-1) Criar o banco dbmarketplace no serrvidor de banco de dados Mysql.
+1) Criar o banco dbmarketplace no servidor de banco de dados Mysql.
 
 O script de criação encontra-se na pasta banco.
 
