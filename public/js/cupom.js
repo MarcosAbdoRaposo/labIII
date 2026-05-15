@@ -1,5 +1,7 @@
 const API_URL = "http://localhost:3000/cupom";
 
+//import { obterUsuarioLogado } from './servicoUsuario.js';
+
 async function carregarCupom() {
     // Lista os Cupons
     const res = await fetch(API_URL);
@@ -49,6 +51,9 @@ async function salvarCupom(e) {
 
         const codOrigem = document.querySelector('input[name="inlineRadioOrigem"]:checked').value;
         const codTipo = document.querySelector('input[name="inlineRadioTipo"]:checked').value;
+        const idUsuarioLogado = obtemIdUsuarioLogado();
+        const nomUsuarioLogado = obtemNomeUsuarioLogado();
+
 
         const data = {
                     codDesconto : document.getElementById("inputCodigo").value,
@@ -61,12 +66,17 @@ async function salvarCupom(e) {
                     datFimValidade: datFimValidade,
                     obsDesconto : document.getElementById("inputObservacao").value,
                     indAtivo : 1,
-                    idLoja : 1,
-                    idUsuarioCriacao: 1,
+                    idUsuarioCriacao: idUsuarioLogado,
+                    
+                    nomUsuarioCriacao: nomUsuarioLogado,
+
                     datCriacao: datCriacao
-
-
         };
+        // Loja
+        if (codOrigem == "L") {
+            const idLoja = obtemIdLojaUsuarioLogado();
+            data.idLoja = idLoja;
+        }
 
         const metodo = "POST"
         const url =  API_URL;
@@ -114,16 +124,19 @@ async function consultarCupom(idDesconto) {
     document.getElementById("inputDataFim").value = cupom.datFimValidade.toLocaleString('pt-BR').replace(' ', 'T').substring(0, 16);
     document.getElementById("inputObservacao").value = cupom.obsDesconto;
     document.getElementById("ckBoxInativo").checked = ( cupom.indAtivo == 0) ;
-    document.getElementById("inputCriadoPor").value = cupom.idUsuarioCriacao;
+    document.getElementById("inputCriadoPor").value = cupom.nomUsuarioCriacao;
     if (cupom.datCriacao != null) {
         document.getElementById("inputDataCriacao").value = cupom.datCriacao.toLocaleString('pt-BR').replace(' ', 'T').substring(0, 16);
     }
-    document.getElementById("inputInativadoPor").value = cupom.idUsuarioInativacao;
-    if (cupom.datInativacao != null) {
-        document.getElementById("inputDataInativacao").value = cupom.datInativacao.toLocaleString('pt-BR').replace(' ', 'T').substring(0, 16);
+    if (cupom.indAtivo == 0) {
+        document.getElementById("inputInativadoPor").value = cupom.nomUsuarioInativacao;
+        if (cupom.datInativacao != null) {
+            document.getElementById("inputDataInativacao").value = cupom.datInativacao.toLocaleString('pt-BR').replace(' ', 'T').substring(0, 16);
+        }
     }
+
    
-    exibirCupom(true);
+    visualizarCupom(); 
     exibeTipoDesconto(cupom.codTipo);
     exibirFormulario();
 
@@ -134,11 +147,13 @@ async function inativarCupom(id) {
     if (confirm("Deseja inativar este cupom?")) {
         const datInativacao = (new Date()).toISOString().slice(0, 19).replace('T', ' ');
         
-        const idUsuarioInativacao = 2;
+        const idUsuarioLogado = obtemIdLojaUsuarioLogado();
+        const nomUsuarioLogado = obtemNomeUsuarioLogado();
         
         const data = {
 
-                    idUsuarioInativacao : idUsuarioInativacao,
+                    idUsuarioInativacao : idUsuarioLogado,
+                    nomUsuarioInativacao : nomUsuarioLogado,
                     datInativacao: datInativacao
         }
         const metodo = "DELETE"
@@ -155,29 +170,50 @@ async function inativarCupom(id) {
     }
 }
 
-function exibirCupom(visualizar) {
+
+function visualizarCupom() {
+    document.getElementById("lblNovoCupom").hidden = true;
+    document.getElementById("lblVisualizarCupom").hidden = false;
+    document.getElementById("btnCancelarCupom").hidden = true;
+    document.getElementById("btnSalvarCupom").hidden = true;
+    document.getElementById("btnRetornarCupom").hidden = false;
+    document.getElementById("divAtivo").classList.replace("col-md-3", "col-md-6");
+
+   
+    document.getElementById("inputCodigo").disabled = true;
+    document.getElementById("inlineRadioPercentual").disabled = true;
+    document.getElementById("inlineRadioValor").disabled = true;
+    document.getElementById("inlineRadioFrete").disabled = true;
+    document.getElementById("inputPercentual").disabled = true;
+    document.getElementById("inputValor").disabled = true;
+    document.getElementById("inputDataInicio").disabled = true;
+    document.getElementById("inputDataFim").disabled = true;
+    document.getElementById("inputObservacao").disabled = true;
 
 
-
-    if (visualizar) {
-        document.getElementById("lblNovoCupom").hidden = true;
-        document.getElementById("lblVisualizarCupom").hidden = false;
-        document.getElementById("btnCancelarCupom").hidden = true;
-        document.getElementById("btnSalvarCupom").hidden = true;
-        document.getElementById("btnRetornarCupom").hidden = false;
-        document.getElementById("divAtivo").classList.replace("col-md-3", "col-md-6");
-
-        
-    } else {
-        document.getElementById("lblNovoCupom").hidden = false;
-        document.getElementById("lblVisualizarCupom").hidden = true;
-        document.getElementById("btnCancelarCupom").hidden = false;
-        document.getElementById("btnSalvarCupom").hidden = false;
-        document.getElementById("btnRetornarCupom").hidden = true;
-
-    }
-
+    return;
 }
+
+function criarCupom() {
+    document.getElementById("lblNovoCupom").hidden = false;
+    document.getElementById("lblVisualizarCupom").hidden = true;
+
+    document.getElementById("inputCodigo").disabled = false;
+    document.getElementById("inlineRadioPercentual").disabled = false;
+    document.getElementById("inlineRadioValor").disabled = false;
+    document.getElementById("inlineRadioFrete").disabled = false;
+    document.getElementById("inputPercentual").disabled = false;
+    document.getElementById("inputValor").disabled = false;
+    document.getElementById("inputDataInicio").disabled = false;
+    document.getElementById("inputDataFim").disabled = false;
+    document.getElementById("inputObservacao").disabled = false;
+
+
+    document.getElementById("btnCancelarCupom").hidden = false;
+    document.getElementById("btnSalvarCupom").hidden = false;
+    document.getElementById("btnRetornarCupom").hidden = true;
+    document.getElementById("divAtivo").classList.replace("col-md-6", "col-md-3");
+}       
 
 function exibeTipoDesconto(tipoDesconto) {
     document.getElementById("divPercentual").hidden = (tipoDesconto != "P");
@@ -186,16 +222,21 @@ function exibeTipoDesconto(tipoDesconto) {
 
 }
 
+
+// Oculta a área de lista e exibe a área de Formulário
 function exibirFormulario() {
 
 document.getElementById("areaEdicao").hidden = false
 document.getElementById("areaLista").hidden = true
 }
 
+
+// Oculta a área de formulário e exibe a área de lista
 function ocultarFormulario() {
 document.getElementById("areaEdicao").hidden = true
 document.getElementById("areaLista").hidden = false
 }
+
 
 function limparCamposFormulario() {
     document.getElementById("idDesconto").value = 0;
@@ -220,10 +261,26 @@ function limparCamposFormulario() {
 
 }
 
+function selecionarOrigem(codOrigem) {
+
+// Loja ou Plataforma
+    if (codOrigem == "P") {
+        document.getElementById("inlineRadioPlataforma").checked = true;
+        document.getElementById("inlineRadioLoja").checked = false;
+    } else {
+        document.getElementById("inlineRadioPlataforma").checked = false;
+        document.getElementById("inlineRadioLoja").checked = true;
+    }
+}
+
+
+
 function novoCupom() {
     limparCamposFormulario();
     document.getElementById("idDesconto").value = 0;
-    exibirCupom(false);
+
+    criarCupom(); 
+    selecionarOrigem( obtemOrigemUsuarioLogado());
     exibirFormulario();
 }
 
@@ -306,8 +363,52 @@ function criticaCupom() {
 
 }
 
+function exibeUsuarioLogado() {
+    const usuarioLogado = obterUsuarioLogado();
+    if (usuarioLogado.tipo == "Loja") {
+        document.getElementById("lblUsuario").textContent = usuarioLogado.tipo+" "+usuarioLogado.idLoja +": "+usuarioLogado.nome;
+    } else {
+        document.getElementById("lblUsuario").textContent = usuarioLogado.tipo +": "+usuarioLogado.nome;
+    }
+
+    
+}
+
+
+function obtemOrigemUsuarioLogado() {
+    const usuarioLogado = obterUsuarioLogado();
+    if (usuarioLogado.tipo == "Loja") {
+        return "L";
+    } else if (usuarioLogado.tipo == "Plataforma") {
+        return "P";
+    } else {
+        alert("Usuário de tipo não autorizado: "+usuarioLogado.tipo);
+        return "";
+    }
+}
+
+function obtemNomeUsuarioLogado() {
+    const usuarioLogado = obterUsuarioLogado();
+    return usuarioLogado.nome;
+}
+
+function obtemIdUsuarioLogado() {
+    const usuarioLogado = obterUsuarioLogado();
+    return usuarioLogado.id;
+}
+
+function obtemIdLojaUsuarioLogado() {
+    const usuarioLogado = obterUsuarioLogado();
+    return usuarioLogado.idLoja;
+}
+
+
+
+
+
 //document.getElementById("clienteForm").addEventListener("submit", salvarCliente);
 carregarCupom();
+exibeUsuarioLogado();
 
 
  

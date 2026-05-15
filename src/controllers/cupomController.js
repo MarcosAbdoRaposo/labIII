@@ -41,7 +41,7 @@ exports.listar = async (req, res) => {
 
 exports.inserir = async (req, res) => {
   try {
-    const { codDesconto,codNatureza,codOrigem,codTipo,valDesconto,perDesconto,datInicioValidade,datFimValidade,obsDesconto,idLoja,idUsuarioCriacao,datCriacao } = req.body;
+    const { codDesconto,codNatureza,codOrigem,codTipo,valDesconto,perDesconto,datInicioValidade,datFimValidade,obsDesconto,idLoja,idUsuarioCriacao,nomUsuarioCriacao,datCriacao } = req.body;
     const camposDesconto = { 
       codDesconto : codDesconto,
       codNatureza : codNatureza,
@@ -51,10 +51,11 @@ exports.inserir = async (req, res) => {
       datFimValidade: datFimValidade,
       obsDesconto : obsDesconto,
       indAtivo : 1,
-      idLoja : idLoja,
       idUsuarioCriacao:idUsuarioCriacao,
+      nomUsuarioCriacao: nomUsuarioCriacao,
       datCriacao: datCriacao
     };
+
 
     // adiciona campos que podem ser nulos.
     if (codOrigem == "L") {
@@ -80,9 +81,9 @@ exports.inserir = async (req, res) => {
 exports.inativar = async (req, res) => {
   try {
     const { idDesconto } = req.params;
-    const { idUsuarioInativacao, datInativacao } = req.body;
+    const { idUsuarioInativacao, nomUsuarioInativacao, datInativacao } = req.body;
     
-    await db('desconto').where({ idDesconto }).update({ indAtivo : 0, idUsuarioInativacao : idUsuarioInativacao, datInativacao : datInativacao });
+    await db('desconto').where({ idDesconto }).update({ indAtivo : 0, idUsuarioInativacao : nomUsuarioInativacao, nomUsuarioInativacao : idUsuarioInativacao,datInativacao : datInativacao });
     res.json({ mensagem: 'Cupom inativado com sucesso' });
   } catch (err) {
     console.error('Erro ao atualizar:', err.message);

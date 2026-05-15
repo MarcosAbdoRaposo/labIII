@@ -38,6 +38,9 @@ CREATE TABLE IF NOT EXISTS DBMarketPlace.Desconto (
   datCriacao DATETIME NOT NULL COMMENT 'Data e Hora da criação do Desconto.',
   idUsuarioInativacao INT NULL COMMENT 'Identificação do Usuário que inativou o Desconto.',
   datInativacao DATETIME NULL COMMENT 'Data e Hora da inativação do Desconto.',
+  nomUsuarioCriacao varchar(128) NOT NULL COMMENT 'Nome do Usuário que criou o Desconto.',
+  nomUsuarioInativacao varchar(128) NOT NULL COMMENT 'Nome do Usuário que inativou o Desconto.',
+
   PRIMARY KEY (idDesconto),
   UNIQUE INDEX ix_Desconto_codDesconto (codDesconto ASC) VISIBLE)
 ENGINE = InnoDB
