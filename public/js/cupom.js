@@ -15,18 +15,20 @@ async function carregarCupom() {
     // Adiciona uma Linha de Cupons
     cupons.forEach(cupom => {
         const row = document.createElement("tr");
-        const origemCupom = (cupom.codOrigem = "P") ? "Plataforma" : "Loja";
-        const tipoCupom = (cupom.codTipo = "V") ? "Valor"
-                        : (cupom.codTipo = "P") ? "Percentual"
-                        : (cupom.codTipo = "F") ? "Frete Grátis"
+        const origemCupom = (cupom.codOrigem == "P") ? "Plataforma" : "Loja";
+        const tipoCupom = (cupom.codTipo == "V") ? "Valor"
+                        : (cupom.codTipo == "P") ? "Percentual"
+                        : (cupom.codTipo == "F") ? "Frete Grátis"
                         : "";
         const periodoValidade = (new Date (cupom.datInicioValidade)).toLocaleString("pt-BR") +"<br>"+(new Date (cupom.datFimValidade)).toLocaleString("pt-BR");
+
+        const situacao = (cupom.indAtivo == 1 ) ? "Ativo" : "Inativo";
         row.innerHTML = `
             <td>${origemCupom}</td>
             <td>${cupom.codDesconto}</td>
             <td>${tipoCupom}</td>
             <td>${periodoValidade}</td>
-            <td>00000</td>
+            <td>${situacao}</td>
             <td class="actions">
             <button onclick="consultarCupom(${cupom.idDesconto})">👁️</button>
             <button onclick="inativarCupom(${cupom.idDesconto})">❌</button>
@@ -209,10 +211,21 @@ function criarCupom() {
     document.getElementById("inputObservacao").disabled = false;
 
 
+
     document.getElementById("btnCancelarCupom").hidden = false;
     document.getElementById("btnSalvarCupom").hidden = false;
     document.getElementById("btnRetornarCupom").hidden = true;
     document.getElementById("divAtivo").classList.replace("col-md-6", "col-md-3");
+
+    // Marca o Tipo de Desconto Percentual como "Default"
+
+
+    document.getElementById("inlineRadioPercentual").checket = true;
+    exibeTipoDesconto("P");
+
+
+
+
 }       
 
 function exibeTipoDesconto(tipoDesconto) {
@@ -276,15 +289,23 @@ function selecionarOrigem(codOrigem) {
 
 
 function novoCupom() {
+
+
+    console.log("ENtrou na novo Cupom");
     limparCamposFormulario();
+    console.log("Passoi pela limparCamposFormulario");
     document.getElementById("idDesconto").value = 0;
 
     criarCupom(); 
+      console.log("Passou pelaCriar Cupom");
     selecionarOrigem( obtemOrigemUsuarioLogado());
     exibirFormulario();
+       console.log("Passou pela Exibor Formulario");
 }
 
 function criticaCupom() {
+
+
 
     // Testa a Origem do Cupom 
     if ( ! document.getElementById("inlineRadioLoja").checked && ! document.getElementById("inlineRadioPlataforma").checked ) {
@@ -296,8 +317,13 @@ function criticaCupom() {
         alert("É obrigatório informar um código para o Cupom.");
         return false;
     }
+
+    // Verifica se o código está duplicado
+
+
+
     
-    if ( ! document.getElementById("inlineRadioPercentual").checked && ! document.getElementById("inlineRadioValor").checked && ! document.getElementById("inlineRadioValor").checked ) {
+    if ( ! document.getElementById("inlineRadioPercentual").checked && ! document.getElementById("inlineRadioValor").checked && ! document.getElementById("inlineRadioFrete").checked ) {
         alert("É obrigatório identificar se é o cupom é Percentual, Valor ou Frete Grátis.");
         return false;
     }

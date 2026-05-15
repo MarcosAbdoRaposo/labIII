@@ -27,6 +27,8 @@ const controller = require('../controllers/cupomController');
 
 router.get('/', controller.listar);
 router.get('/:idDesconto', controller.obter);
+
+
 router.post('/', controller.inserir);
 //router.put('/:idDesconto', controller.inativar);
 router.delete('/:idDesconto', controller.inativar);

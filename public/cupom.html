@@ -21,7 +21,7 @@
                         <label for="inputCodigoBusca" class="form-label">Código</label>
                         <input type="text" class="form-control" id="inputCodigoBusca"  placeholder="Código do Cupom">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 align-self-end">
                         <button class="btn btn-outline-secondary w-100">🔍 Busca</button>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                                 <th class="fw-normal pb-3 border-bottom">Código</th>
                                 <th class="fw-normal pb-3 border-bottom">Tipo de Desconto</th>
                                 <th class="fw-normal pb-3 border-bottom">Período</th>
-                                <th class="fw-normal pb-3 border-bottom">Utilizados</th>
+                                <th class="fw-normal pb-3 border-bottom">Situação</th>
                                 <th class="fw-normal pb-3 border-bottom">Ações</th>
                             </tr>
                         </thead>
@@ -102,11 +102,11 @@
                 <h5 class="h5 mb-0 text-dark">Origem</h5>
             </div>
             <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="radio" name="inlineRadioOrigem" id="inlineRadioPlataforma" value="P">
+                <input class="form-check-input" type="radio" name="inlineRadioOrigem" id="inlineRadioPlataforma" value="P" disabled>
                 <label class="form-check-label" for="inlineRadioPlataforma">Plataforma</label>
             </div>
             <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="radio" name="inlineRadioOrigem" id="inlineRadioLoja" value="L">
+                <input class="form-check-input" type="radio" name="inlineRadioOrigem" id="inlineRadioLoja" value="L" disabled>
                 <label class="form-check-label" for="inlineRadioLoja">Loja</label>
             </div>
 
@@ -190,9 +190,16 @@
                     <input class="form-check-input" type="checkbox" value="0" id="ckBoxInativo" disabled>
                     <label class="form-check-label" for="ckBoxInativo">Inativo</label>
                 </div>
-                <button id="btnCancelarCupom" onclick="ocultarFormulario()" class="btn btn-secondary col-md-3">Cancelar</button>
-                <button id="btnSalvarCupom" onclick="salvarCupom()" class="btn btn-primary col-md-3">Salvar</button>
-                <button id="btnRetornarCupom"  onclick="ocultarFormulario()" class="btn btn-primary col-md-3" hidden>Retornar</button>
+                
+                    <button id="btnCancelarCupom" onclick="ocultarFormulario()" class="btn btn-secondary col-md-3">Cancelar</button>
+               
+               
+                    <button id="btnSalvarCupom" onclick="salvarCupom()" class="btn btn-primary col-md-3">Salvar</button>
+             
+                
+
+                    <button id="btnRetornarCupom"  onclick="ocultarFormulario()" class="btn btn-primary col-md-3" hidden>Retornar</button>
+            
                 
 
             </div>

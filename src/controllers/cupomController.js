@@ -25,6 +25,21 @@ exports.obter = async (req, res) => {
   }
 };
 
+exports.buscarCodigoCupom = async (req, res) => {
+  try {
+    const { codCupom } = req.params;
+    const desconto = await db("desconto").where({ codDesconto: codCupom }).first();
+    if (!desconto) {
+      return res.status(404).json({ erro: "Cupom não encontrado" });
+    }
+    res.json(desconto);
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao buscar o Cupom" });
+  }
+};
+
+
+
 // Método de Listar todos os cupons
 
 exports.listar = async (req, res) => {
@@ -90,7 +105,4 @@ exports.inativar = async (req, res) => {
     res.status(500).json({ erro: 'Erro ao atualizar Cupom' });
   }
 };
-
-// Método de inativar um Cupom 
-
 
