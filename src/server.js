@@ -93,6 +93,10 @@ app.get("/", (req, res) => {
 // Obtem a porta que foi definido no arquivo .env 
 
 const PORT = process.env.PORT || 3000;
+// Inclui as Funções de CRUD definidas em /routes/voucherRouter:
+const voucherRoutes = require('./routes/voucherRouter');
+
+app.use('/voucher', voucherRoutes);
 
 // Ativa o serviço
 
