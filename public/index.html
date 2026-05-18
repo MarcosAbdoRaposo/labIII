@@ -4,23 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela auxiliar</title>
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <h1>Tela de configuração e de testes</h1>
-    <p>
-        <a href="cupom.html">Tela de Cupom</a>
-    </p>
-    <p>
-        <a href="voucher.html">Tela de Voucher</a>
-    </p>
-    <h2>Configuração do Usuário</h2>
-    <label for="usuarios">Escolha um usuário:</label>
-    <select name="usuarios" id="cmbUsuario">
-    </select>
-    <button onclick="salvarConfiguracao()">Salva a configuração</button>
+    <div class="container py-5 mb-9">
+        <h1>Tela de configuração e de testes</h1>
+        <p>
+            <a href="cupom.html">Tela de Cupom</a>
+        </p>
+        <p>
+            <a href="voucher.html">Tela de Voucher</a>
+        </p>
+        <br>
+        <br>
+        <h2>Configuração do Usuário</h2>
+        <label for="usuarios">Escolha um usuário:</label>
+        <select name="usuarios" id="cmbUsuario">
+        </select>
+        <button onclick="salvarConfiguracao()">Salva a configuração</button>
+        <br>
+        <br>
+         <h2>
+                Teste de Cupom e Voucher de Desconto
+        </h2>
+        <div class="row mb-9">
+           
+            <div class="col-md-3">
+                <label for="inputCupomVoucher" class="form-label">Código</label>
+                <input type="text" class="form-control" id="inputCupomVoucher" placeholder="Cupom ou Voucher">
+            </div>
+            <div class="col-md-2 align-self-end">
+                <button id="btnValidarDesconto"  onclick="validarDesconto()" class="btn btn-primary w-100">Validar</button>
+            </div>
+        </div>
+        <div class="row mb-9">
+            <div class="col-md-3">
+                <label for="inputIdDesconto" class="form-label">Código</label>
+                <input type="text" class="form-control" id="inputIdDesconto" placeholder="ID do Cupom ou Voucher">
+            </div>
+
+            <div class="col-md-3">
+                <label for="inputPedido" class="form-label">Pedido</label>
+                <input type="text" class="form-control" id="inputPedido">
+            </div>
+            <div class="col-md-3">
+                <label for="inputValor" class="form-label">Valor</label>
+                <input type="text" class="form-control" id="inputValor">
+            </div>
+            <div class="col-md-3 align-self-end">
+                <button id="btnUtilizarDesconto"  onclick="utilizarDesconto()" class="btn btn-primary w-100">Utilizar</button>
+            </div>
+
+
+        </div>
+        <div class="col-md-12 mb-9">
+            <label for="areaResposta" class="form-form-label">Resposta</label>
+            <textarea class="form-control" id="areaResposta" rows="8" placeholder="Resultado..."></textarea>
+        </div>
+
+    </div>
+
 
              
-
+    <script src="js/bootstrap.js" type="text/javascript"></script>
     <script src="js/configuracao.js" type="text/javascript"></script>
 
 </body>

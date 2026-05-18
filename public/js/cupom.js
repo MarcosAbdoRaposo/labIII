@@ -38,6 +38,70 @@ async function carregarCupom() {
     });
 }
 
+
+
+async function buscarCupom() {
+
+    const codCupom =  document.getElementById("inputCodigoBusca").value;
+    const datInicioBusca = document.getElementById("inputDataInicioBusca").value;
+    const datFimBusca = document.getElementById("inputDataFimBusca").value; 
+
+    // Verifica se informou corretamente os padrões de busca.
+
+
+
+
+    if ((codCupom  && (datInicioBusca || datFimBusca)) ||
+        (!codCupom  && !datInicioBusca && !datFimBusca)) {
+        alert("É necessário informar o Código do Cupom ou as Data de Início e de Fim de um período a ser buscado");
+
+    } else {
+        let url;
+
+        if (codCupom) {
+             url = `${API_URL}/buscarCodigo/${codCupom}`;
+        } else if (datInicioBusca || datFimBusca) {
+            url = `${API_URL}/buscarIntervalo/${datInicioBusca}/${datFimBusca}`
+            
+        }
+        const res = await fetch(url, { method: "GET" });
+        // Lista os Cupons
+        
+        // Converte para Jason
+        const cupons = await res.json();
+        // aponta para a tabela de Cupons no HTML
+        const tabela = document.getElementById("tabelaCupons");
+        // Limpa a tabela
+        tabela.innerHTML = "";
+
+        // Adiciona uma Linha de Cupons
+        cupons.forEach(cupom => {
+            const row = document.createElement("tr");
+            const origemCupom = (cupom.codOrigem == "P") ? "Plataforma" : "Loja";
+            const tipoCupom = (cupom.codTipo == "V") ? "Valor"
+                            : (cupom.codTipo == "P") ? "Percentual"
+                            : (cupom.codTipo == "F") ? "Frete Grátis"
+                            : "";
+            const periodoValidade = (new Date (cupom.datInicioValidade)).toLocaleString("pt-BR") +"<br>"+(new Date (cupom.datFimValidade)).toLocaleString("pt-BR");
+
+            const situacao = (cupom.indAtivo == 1 ) ? "Ativo" : "Inativo";
+            row.innerHTML = `
+                <td>${origemCupom}</td>
+                <td>${cupom.codDesconto}</td>
+                <td>${tipoCupom}</td>
+                <td>${periodoValidade}</td>
+                <td>${situacao}</td>
+                <td class="actions">
+                <button onclick="consultarCupom(${cupom.idDesconto})">👁️</button>
+                <button onclick="inativarCupom(${cupom.idDesconto})">❌</button>
+                </td>
+            `;
+            tabela.appendChild(row);
+        });
+    }
+}
+
+
 async function salvarCupom(e) {
     if (criticaCupom()) {
     
@@ -220,7 +284,7 @@ function criarCupom() {
     // Marca o Tipo de Desconto Percentual como "Default"
 
 
-    document.getElementById("inlineRadioPercentual").checket = true;
+    document.getElementById("inlineRadioPercentual").checked = true;
     exibeTipoDesconto("P");
 
 

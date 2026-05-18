@@ -48,9 +48,7 @@ Obs:
 
 app.use(express.static(path.join(__dirname,"..", "public")));
 
-// Inclui as Funções de CRUD definidas em /routes/cupomRouter:
 
-const cupomRoutes = require('./routes/cupomRouter');
 
 /* app.use(express.json()); é um middleware no Express.js que permite que o servidor analise
  o corpo de requisições que vêm no formato JSON. 
@@ -79,8 +77,28 @@ app.use(express.json());
 
 */
 
+// Inclui as Funções de CRUD definidas em /routes/cupomRouter:
+
+const cupomRoutes = require('./routes/cupomRouter');
 
 app.use('/cupom', cupomRoutes);
+
+// Inclui as Funções de CRUD definidas em /routes/voucherRouter:
+const voucherRoutes = require('./routes/voucherRouter');
+
+app.use('/voucher', voucherRoutes);
+
+
+// Inclui as Funções de CRUD definidas em /routes/voucherRouter:
+const descontoRoutes = require('./routes/descontoRouter');
+
+app.use('/desconto', descontoRoutes);
+
+
+
+
+
+
 
 /* Define o destino padrão do site como sendo public/index.html
 
@@ -93,10 +111,7 @@ app.get("/", (req, res) => {
 // Obtem a porta que foi definido no arquivo .env 
 
 const PORT = process.env.PORT || 3000;
-// Inclui as Funções de CRUD definidas em /routes/voucherRouter:
-const voucherRoutes = require('./routes/voucherRouter');
 
-app.use('/voucher', voucherRoutes);
 
 // Ativa o serviço
 

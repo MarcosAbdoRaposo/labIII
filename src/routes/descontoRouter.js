@@ -15,25 +15,17 @@ const express = require('express');
 
 const router = express.Router();
 
-/*
-
-*/
-
-const controller = require('../controllers/cupomController');
+const controller = require('../controllers/descontoController');
 
 /* Define a roteamento para cada verbo e atributo recebido na Url.
 
 */
 
-router.get('/buscarCodigo/:codCupom', controller.buscarCupomCodigo);
-router.get('/buscarIntervalo/:datInicioBusca/:datFimBusca', controller.buscarCupomIntervalo);
+router.get('/:codDesconto', controller.validar);
+router.get('/', controller.trataErro)
 
-router.get('/', controller.listar);
-router.get('/:idDesconto', controller.obter);
+router.post('/', controller.utilizar);
 
-router.post('/', controller.inserir);
-
-router.delete('/:idDesconto', controller.inativar);
 
 /* module.exports é uma propriedade do Node.js que define o que um módulo JavaScript exporta 
   para outros arquivos usarem. 
